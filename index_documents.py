@@ -88,6 +88,7 @@ def save_to_db(file_name: str, chunks: List[str], embeddings: List[List[float]],
 
 
 def process_file(file_path: str):
+    """Resposible for all the staging process"""
     print(f"Processing file: {file_path}...")
     
     # 1. Exctract 
@@ -105,9 +106,6 @@ def process_file(file_path: str):
 
 
 if __name__ == "__main__":
-    for model in client.models.list():
-        print(model.name)
-    print("\n\n\n#################")
     path = "./my_document.pdf" 
     if os.path.exists(path):
         process_file(path)
