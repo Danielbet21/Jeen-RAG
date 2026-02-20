@@ -1,5 +1,6 @@
 import os
 import uuid
+import argparse
 import psycopg2
 from typing import List
 from dotenv import load_dotenv
@@ -106,8 +107,20 @@ def process_file(file_path: str):
 
 
 if __name__ == "__main__":
-    path = "./my_document.pdf" 
-    if os.path.exists(path):
-        process_file(path)
+    parser = argparse.ArgumentParser(description="Index a document (PDF/DOCX) into the vector database.")
+    parser.add_argument(
+        "--file", 
+        "-f", 
+        type=str, 
+        help="The valid path to the file you want to index (e.g., ./my_doc.pdf)"
+    )
+    args = parser.parse_args()
+    if args.file:
+        path = args.file
+        if os.path.exists(path):
+            process_file(path)
+        else:
+            print(f"ERROR: File not found at '{path}'. Please check the path and try again.\n")
     else:
-        print("ERROR: File not found, try again\n")
+        print("ERROR: No file provided. Usage: python index_documents.py --file [path]")
+        parser.print_help()
